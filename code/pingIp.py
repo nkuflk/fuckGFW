@@ -13,6 +13,8 @@ import pycurl
 import re
 import os
 
+outFile = open('output', 'w')
+
 class pingThread(threading.Thread):
 
     def __init__(self, ip):
@@ -56,7 +58,10 @@ class pingThread(threading.Thread):
             if len(match)==0:
                 return
             self.avg = match[0]
-            print self.ip, self.loss, self.avg, self.domain
+            outFile.write(self.ip+' ')
+            outFile.write(self.loss+' ')
+            outFile.write(self.avg+' ')
+            outFile.write(self.domain+'\n')
 
 def getIpList():
     ip = []
@@ -76,17 +81,16 @@ def getIpList():
 def pingIp():
     ipList = getIpList()
     for k in range(0,len(ipList)):
-        if ipList[k][2]==0:
-            continue
-            #for j in range(0,256):
-            #    threads = []
-            #    for i in range(0,256):
-            #        ip = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(j)+'.'+str(i)
-            #        threads.append(pingThread(ip))
-            #    for i in range(0,256):
-            #        threads[i].start()
-            #    for i in range(0,256):
-            #        threads[i].join()
+        if ipList[k][2]=='0':
+            for j in range(0,256):
+                threads = []
+                for i in range(0,256):
+                    ip = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(j)+'.'+str(i)
+                    threads.append(pingThread(ip))
+                for i in range(0,256):
+                    threads[i].start()
+                for i in range(0,256):
+                    threads[i].join()
         else:
             threads = []
             for i in range(0,256):
@@ -96,6 +100,7 @@ def pingIp():
                 threads[i].start()
             for i in range(0,256):
                 threads[i].join()
+    outFile.close()
 
 if __name__=='__main__':
     pingIp()
