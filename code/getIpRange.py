@@ -11,7 +11,6 @@ import os
 import re
 
 def getIpRange():
-
     cmd = os.popen('nslookup -q=TXT _netblocks.google.com 8.8.8.8')
     output = cmd.read()
     pattern = re.compile(r'ip4:(.*?)/')
