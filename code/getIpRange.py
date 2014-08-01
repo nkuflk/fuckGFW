@@ -4,7 +4,7 @@
 # File Name: getIpRange.py
 # Author: nkuflk
 # mail: nkuflk@gmail.com
-# Created Time: 2014-07-25 15:00:10
+# Created Time: 2014-07-26 09:00:10
 #########################################################################
 
 import os

@@ -4,7 +4,7 @@
 # File Name: selectHost.py
 # Author: nkuflk
 # mail: nkuflk@gmail.com
-# Created Time: 2014-07-30 16:47:38
+# Created Time: 2014-07-26 16:47:38
 #########################################################################
 
 domains = ["*.google.com",

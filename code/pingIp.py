@@ -4,7 +4,7 @@
 # File Name: pingIp.py
 # Author: nkuflk
 # mail: nkuflk@gmail.com
-# Created Time: 2014-07-28 11:20:39
+# Created Time: 2014-07-26 11:20:39
 #########################################################################
 
 import nmap
