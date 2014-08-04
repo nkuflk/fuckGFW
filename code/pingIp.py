@@ -83,24 +83,28 @@ def pingIp():
     for k in range(0,len(ipList)):
         if ipList[k][2]=='0':
             for j in range(0,256):
+                ip = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(j)
+                print ip
                 threads = []
                 for i in range(0,256):
-                    ip = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(j)+'.'+str(i)
+                    ip = ip+'.'+str(i)
                     threads.append(pingThread(ip))
                 for i in range(0,256):
                     threads[i].start()
                 for i in range(0,256):
                     threads[i].join()
         else:
+            ip = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(ipList[k][2])
+            print ip
             threads = []
             for i in range(0,256):
-                ip = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(ipList[k][2])+'.'+str(i)
+                ip = ip+'.'+str(i)
                 threads.append(pingThread(ip))
             for i in range(0,256):
                 threads[i].start()
             for i in range(0,256):
                 threads[i].join()
-    outFile.close()
 
 if __name__=='__main__':
     pingIp()
+    outFile.close()

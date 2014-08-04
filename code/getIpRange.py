@@ -19,7 +19,6 @@ def getIpRange():
     for line in match:
         fileHandle.write(line+'\n')
     fileHandle.close()
-    return match
 
 if __name__=='__main__':
-    match = getIpRange()
+    getIpRange()

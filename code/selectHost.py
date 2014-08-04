@@ -45,7 +45,12 @@ def select():
                 dicts[temp[3]] = value
                 hosts.append([temp[0],(int)(temp[1][:-1]),(float)(temp[2]),temp[3]])
                 value = value+1
-    return hosts
+	fileHandle.close()
+    fileHandle = open('hosts.bak', 'w')
+    for line in hosts:
+        fileHandle.write(line[0]+' ')
+        fileHandle.write(line[3]+'\n')
+    fileHandle.close()
 
 if __name__=='__main__':
-    hosts = select()
+    select()
