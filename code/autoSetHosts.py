@@ -9,15 +9,23 @@
 
 import sys
 import os
-import getIpRange
-import pingIp
-import selectHost
 
 if os.name!='posix':
     print 'Sorry, we just support Linux/Unix now!'
     sys.exit(0)
 
 if __name__=='__main__':
-    getIpRange.getIpRange()
-    pingIp.pingIp()
-    selectHost.select()
+    fileHandle = open('/etc/hosts', 'r')
+    temp = ''
+    for line in fileHandle:
+        temp += line
+    temp += '\n'
+    fileHandle.close()
+    fileHandle = open('hosts.bak', 'r')
+    for line in fileHandle:
+        temp += line
+    fileHandle.close()
+    os.rename('/etc/hosts','/etc/hosts.myHosts')
+    fileHandle = open('/etc/hosts', 'w')
+    fileHandle.write(temp)
+    fileHandle.close()

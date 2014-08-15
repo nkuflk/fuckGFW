@@ -4,8 +4,7 @@
 # File Name: selectHost.py
 # Author: nkuflk
 # mail: nkuflk@gmail.com
-# Created Time: 2014-07-26 16:47:38
-#########################################################################
+# Created Time: 2014-07-26 16:47:38 #########################################################################
 
 domains = ["*.google.com",
         "accounts.google.com",
@@ -45,10 +44,14 @@ def select():
                 dicts[temp[3]] = value
                 hosts.append([temp[0],(int)(temp[1][:-1]),(float)(temp[2]),temp[3]])
                 value = value+1
-	fileHandle.close()
+    fileHandle.close()
     fileHandle = open('hosts.bak', 'w')
     for line in hosts:
         fileHandle.write(line[0]+' ')
+        if line[3].count('.')==3:
+            line[3] = line[3].replace('*.','')
+        else:
+            line[3] = line[3].replace('*','www')
         fileHandle.write(line[3]+'\n')
     fileHandle.close()
 

@@ -41,7 +41,7 @@ class pingThread(threading.Thread):
                 c.perform()
             except Exception, e:
                 e = str(e)
-                pattern = re.compile(r' \((.*google.*?)\)')
+                pattern = re.compile(r'name \((.*)\) does')
                 match = pattern.findall(e)
                 if len(match)==0:
                     return
@@ -82,7 +82,7 @@ def pingIp():
     ipList = getIpList()
     for k in range(0,len(ipList)):
         if ipList[k][2]=='0':
-            for j in range(0,256):
+            for j in range(60,256):
                 tmp = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(j)
                 print tmp
                 threads = []
