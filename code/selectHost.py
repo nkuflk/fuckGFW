@@ -18,6 +18,10 @@ domains = ["*.google.com",
         "*.appspot.com",
         "*.googlecode.com",
         "*.google-analytics.com",
+        "*.gmail.com",
+        "*.panoramio.com",
+        "*.orkut.com",
+        "*.youtube.com",
         "ssl.google-analytics.com"]
 
 def select():
