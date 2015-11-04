@@ -70,12 +70,14 @@ def getIpList():
     match = pattern.findall(str(answers[0]))
     return filter(lambda x : x[2]!='0', [line.split('.') for line in match])
 
-def pingIp():
+def initThreads():
     ipList = getIpList()
+    threads = []
     for ip in ipList:
         ipPrev = '.'.join(ip[:-1])
-        threads = [PingThread(ipPrev+'.'+str(x)) for x in range(1,255)]
+        threads += [PingThread('.'.join([ipPrev, str(x)])) for x in range(1,3)]
+    return threads
 
 if __name__=='__main__':
-    pingIp()
+    initThreads()
     outFile.close()
