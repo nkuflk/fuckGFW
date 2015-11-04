@@ -13,9 +13,11 @@ import pycurl
 import re
 import os
 
+import ipRange
+
 outFile = open('output', 'w')
 
-class pingThread(threading.Thread):
+class PingThread(threading.Thread):
 
     def __init__(self, ip):
         threading.Thread.__init__(self)
@@ -63,47 +65,16 @@ class pingThread(threading.Thread):
             outFile.write(self.avg+' ')
             outFile.write(self.domain+'\n')
 
-def getIpList():
-    ip = []
-    fileHandle = open('googleIpRange', 'r')
-    for line in fileHandle:
-        ip.append(line)
-    fileHandle.close()
-    ipList = [[0]*4]*len(ip)
-    lineId = 0
-    for line in ip:
-        temp = line.split('.')
-        temp[3] = temp[3].strip()
-        ipList[lineId] = temp
-        lineId = lineId + 1
-    return ipList
-
 def pingIp():
-    ipList = getIpList()
-    for k in range(0,len(ipList)):
-        if ipList[k][2]=='0':
-            for j in range(60,256):
-                tmp = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(j)
-                print tmp
-                threads = []
-                for i in range(0,256):
-                    ip = tmp+'.'+str(i)
-                    threads.append(pingThread(ip))
-                for i in range(0,256):
-                    threads[i].start()
-                for i in range(0,256):
-                    threads[i].join()
-        else:
-            tmp = str(ipList[k][0])+'.'+str(ipList[k][1])+'.'+str(ipList[k][2])
-            print tmp
-            threads = []
-            for i in range(0,256):
-                ip = tmp+'.'+str(i)
-                threads.append(pingThread(ip))
-            for i in range(0,256):
-                threads[i].start()
-            for i in range(0,256):
-                threads[i].join()
+    ipList = ipRange.getIpList()
+    for ip in ipList:
+        ipPrev = '.'.join(ip[:-1])
+        threads = [PingThread(ipPrev+'.'+str(x)) for x in range(1,255)]
+    #    else:
+    #        for i in range(0,256):
+    #            threads[i].start()
+    #        for i in range(0,256):
+    #            threads[i].join()
 
 if __name__=='__main__':
     pingIp()

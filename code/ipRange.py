@@ -7,18 +7,11 @@
 # Created Time: 2014-07-26 09:00:10
 #########################################################################
 
-import os
 import re
+import dns.resolver
 
-def getIpRange():
-    cmd = os.popen('nslookup -q=TXT _netblocks.google.com 8.8.8.8')
-    output = cmd.read()
+def getIpList():
+    answers = dns.resolver.query('_netblocks.google.com', 'TXT')
     pattern = re.compile(r'ip4:(.*?)/')
-    match = pattern.findall(output)
-    fileHandle = open('googleIpRange', 'w')
-    for line in match:
-        fileHandle.write(line+'\n')
-    fileHandle.close()
-
-if __name__=='__main__':
-    getIpRange()
+    match = pattern.findall(str(answers[0]))
+    return filter(lambda x : x[2]!='0', [line.split('.') for line in match])
