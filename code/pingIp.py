@@ -12,8 +12,7 @@ import threading
 import pycurl
 import re
 import os
-
-import ipRange
+import dns.resolver
 
 outFile = open('output', 'w')
 
@@ -65,16 +64,17 @@ class PingThread(threading.Thread):
             outFile.write(self.avg+' ')
             outFile.write(self.domain+'\n')
 
+def getIpList():
+    answers = dns.resolver.query('_netblocks.google.com', 'TXT')
+    pattern = re.compile(r'ip4:(.*?)/')
+    match = pattern.findall(str(answers[0]))
+    return filter(lambda x : x[2]!='0', [line.split('.') for line in match])
+
 def pingIp():
-    ipList = ipRange.getIpList()
+    ipList = getIpList()
     for ip in ipList:
         ipPrev = '.'.join(ip[:-1])
         threads = [PingThread(ipPrev+'.'+str(x)) for x in range(1,255)]
-    #    else:
-    #        for i in range(0,256):
-    #            threads[i].start()
-    #        for i in range(0,256):
-    #            threads[i].join()
 
 if __name__=='__main__':
     pingIp()
